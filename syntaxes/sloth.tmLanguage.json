@@ -62,8 +62,10 @@
 		"entities": {
 			"patterns": [
 				{
-					"name": "entity.name.function.sloth",
-					"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*(:\\s| *\\()"
+					"captures": {
+						"1": {"name": "entity.name.function.sloth"}
+					},
+					"match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(:\\s| *\\()"
 				},
 
 				{
