@@ -19,7 +19,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.sloth",
-					"match": "\\b(if|while|define)\\b"
+					"match": "\\b(if|while|define|use)\\b"
 				},
 				{
 					"name": "keyword.operator.sloth",
