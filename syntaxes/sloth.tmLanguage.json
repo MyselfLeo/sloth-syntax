@@ -6,7 +6,6 @@
 		{"include": "#strings"},
 		{"include": "#constants"},
 		{"include": "#comments"},
-		{"include": "#entities"},
 		{"include": "#variable"},
 		{"include": "#storage"},
 		{"include": "#punctuation"},
@@ -19,7 +18,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.sloth",
-					"match": "\\b(if|while|define|use)\\b"
+					"match": "\\b(if|while|define|builtin|for|structure|static)\\b"
 				},
 				{
 					"name": "keyword.operator.sloth",
@@ -59,27 +58,11 @@
 			]
 		},
 
-		"entities": {
-			"patterns": [
-				{
-					"captures": {
-						"1": {"name": "entity.name.function.sloth"}
-					},
-					"match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(:\\s| *\\()"
-				},
-
-				{
-					"name": "entity.name.type.sloth",
-					"match": "\\b(num|bool|string|list)\\b"
-				}
-			]
-		},
-
 		"variable": {
 			"patterns": [
 				{
 					"name": "variable.language.sloth",
-					"match": "@([0-9]+|return)"
+					"match": "@([0-9]+|return|self)"
 				},
 				{
 					"name": "variable.other.sloth",
