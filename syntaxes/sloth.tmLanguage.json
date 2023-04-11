@@ -1,95 +1,128 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Sloth",
+	"scopeName": "source.sloth",
 	"patterns": [
-		{"include": "#keywords"},
-		{"include": "#strings"},
-		{"include": "#constants"},
 		{"include": "#comments"},
-		{"include": "#variable"},
-		{"include": "#storage"},
-		{"include": "#punctuation"},
-		{"include": "#meta"}
+		{"include": "#control"},
+		{"include": "#keyword"},
+		{"include": "#operators"},
+		{"include": "#reserved_var"},
+		{"include": "#strings"},
+		{"include": "#numbers"},
+		{"include": "#function_call"},
+		{"include": "#function_def"},
+		{"include": "#method_def"}
 	],
 
 	"repository": {
 
-		"keywords": {
-			"patterns": [
-				{
-					"name": "keyword.control.sloth",
-					"match": "\\b(if|while|define|builtin|for|structure|static)\\b"
-				},
-				{
-					"name": "keyword.operator.sloth",
-					"match": "\\s(\\+|-|\\*|/|<=|=>|<|>|!|\\?|==)\\s"
-				}
-			]
+		"comments": {
+			"match": "\/\/.*",
+			"name": "comment.line"
 		},
 
+
+		"control": {
+			"match": "\\s(if|while|new)\\s",
+			"name": "keyword.control"
+		},
+
+
+		"keyword": {
+			"match": "(\\s|^)(builtin|for|import|structure|static)\\s",
+			"name": "keyword.other"
+		},
+
+
+		"operators": {
+			"match": "\\s(=|\\+|-|\\*|\\/|%|<=|>=|==|<|>|&|\\?|!|#)\\s",
+			"name": "keyword.operator"
+		},
+
+
+		"reserved_var": {
+			"match": "\\B@((return|self)|[0-9][0-9]*)\\b",
+			"name": "variable.language"
+		},
+
+		
 		"strings": {
-			"name": "string.quoted.double.sloth",
+			"name": "string.quoted.double",
 			"begin": "\"",
 			"end": "\"",
 			"patterns": [
-				{
-					"name": "constant.character.escape.sloth",
-					"match": "\\\\."
-				}
+                {
+                    "name": "constant.character.escape",
+                    "match": "\\\\."
+                }
+            ]
+		},
+
+		
+		"numbers": {
+            "name": "constant.numeric.decimal",
+            "match": "\\b\\d+(\\.\\d+)?\\b",
+            "captures": {
+                "0": {
+                    "name": "constant.numeric.decimal"
+                }
+            }
+        },
+
+
+
+		"function_call": {
+			"beginCaptures": {
+				"0": { "name": "entity.name.function" },
+				"1": { "name" : "punctuation.paren.open" }
+			},
+			"endCaptures": {
+				"0": { "name": "punctuation.paren.close" }
+			},
+			"begin": "([_a-zA-Z][_a-zA-Z0-9]*)(\\()",
+			"end": "\\)",
+			"patterns": []
+		},
+
+
+		"method_def": {
+			"begin": "\\b(define)\\s\\s*(@?[_a-zA-Z][_a-zA-Z0-9]*)\\s\\s*((for)\\s\\s*([_a-zA-Z][_a-zA-Z0-9]*))?\\s*:\\s*",
+			"end": "{",
+			"beginCaptures": {
+				"1": { "name": "keyword.other" },
+				"2": { "name": "entity.name.function" },
+				"4": { "name": "keyword.other" },
+				"5": { "name": "entity.name.type" }
+			},
+			"endCaptures": {
+				"0": { "name": "punctuation.brackets.curly.open" }
+			},
+			"patterns": [
+				{"include": "#types"}
 			]
 		},
 
-		"constants": {
+
+		"function_def": {
+			"begin": "\\b(define)\\s\\s*(@?[_a-zA-Z][_a-zA-Z0-9]*)\\s*:\\s*",
+			"end": "{",
+			"beginCaptures": {
+				"1": { "name": "keyword.other" },
+				"2": { "name": "entity.name.function" }
+			},
+			"endCaptures": {
+				"0": { "name": "punctuation.brackets.curly.open" }
+			},
 			"patterns": [
-				{
-					"name": "constant.numeric.sloth",
-					"match": "[0-9]+(.[0-9]+)?"
-				}
+				{"include": "#types"}
 			]
 		},
 
-		"comments": {
-			"patterns": [
-				{
-					"name": "comment.line.number-sign.sloth",
-					"begin": "#",
-					"end": "\n"
-				}
-			]
-		},
 
-		"variable": {
-			"patterns": [
-				{
-					"name": "variable.language.sloth",
-					"match": "@([0-9]+|return|self)"
-				},
-				{
-					"name": "variable.other.sloth",
-					"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
-				}
-			]
-		},
-
-		"punctuation": {
-			"patterns": [
-				{
-					"name": "punctuation.semi.sloth",
-					"match":";"
-				}
-			]
-		},
-
-		"meta": {
-			"patterns": [
-				{
-					"name": "meta.function.sloth",
-					"begin": "\\bdefine\\b",
-					"end": "{"
-				}
-			]
+		"types": {
+			"match": "\\b[_a-zA-Z][_a-zA-Z0-9]*\\b",
+			"name": "entity.name.type"
 		}
-
-	},
-	"scopeName": "source.sloth"
+	}
 }
