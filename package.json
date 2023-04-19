@@ -2,7 +2,7 @@
     "name": "sloth-syntax",
     "displayName": "Sloth Syntax",
     "description": "Syntax highlighting for Sloth",
-    "version": "0.0.1",
+    "version": "0.9.0",
     "engines": {
         "vscode": "^1.67.0"
     },
