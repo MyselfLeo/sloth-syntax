@@ -83,8 +83,7 @@
 			"begin": "([_a-zA-Z][_a-zA-Z0-9]*)(\\()",
 			"end": "\\)",
 			"patterns": [
-				{"include": "#reserved_var"},
-				{"include": "#comments"}
+				{"include": "#repository"}
 			]
 		},
 
