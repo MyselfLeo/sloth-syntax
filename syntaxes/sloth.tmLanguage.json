@@ -5,34 +5,34 @@
 	"patterns": [
 		{"include": "#comments"},
 		{"include": "#control"},
-		{"include": "#keyword"},
 		{"include": "#operators"},
 		{"include": "#reserved_var"},
 		{"include": "#strings"},
 		{"include": "#numbers"},
 		{"include": "#function_call"},
 		{"include": "#function_def"},
-		{"include": "#method_def"}
+		{"include": "#method_def"},
+		{"include": "#structure_def"},
+		{"include": "#builtin"},
+		{"include": "#imports"},
+		{"include": "#statics"},
+		{"include": "#static_kw"}
 	],
 
 	"repository": {
 
 		"comments": {
-			"match": "\/\/.*",
+			"begin": "\/\/",
+			"end": "\n",
 			"name": "comment.line"
 		},
 
 
 		"control": {
-			"match": "\\s(if|while|new)\\s",
+			"match": "\\b(if|while|new)\\b",
 			"name": "keyword.control"
 		},
 
-
-		"keyword": {
-			"match": "(\\s|^)(builtin|for|import|structure|static)\\s",
-			"name": "keyword.other"
-		},
 
 
 		"operators": {
@@ -82,7 +82,10 @@
 			},
 			"begin": "([_a-zA-Z][_a-zA-Z0-9]*)(\\()",
 			"end": "\\)",
-			"patterns": []
+			"patterns": [
+				{"include": "#reserved_var"},
+				{"include": "#comments"}
+			]
 		},
 
 
@@ -99,7 +102,8 @@
 				"0": { "name": "punctuation.brackets.curly.open" }
 			},
 			"patterns": [
-				{"include": "#types"}
+				{"include": "#types"},
+				{"include": "#comments"}
 			]
 		},
 
@@ -115,14 +119,74 @@
 				"0": { "name": "punctuation.brackets.curly.open" }
 			},
 			"patterns": [
-				{"include": "#types"}
+				{"include": "#types"},
+				{"include": "#comments"}
+			]
+		},
+
+		"structure_def": {
+			"begin": "\\b(structure)\\s\\s*([_a-zA-Z][_a-zA-Z0-9]*)\\s*{",
+			"end": "}",
+			"beginCaptures": {
+				"1": { "name": "keyword.other" },
+				"2": { "name": "entity.name.type" }
+			},
+			"endCaptures": {
+				"0": { "name": "punctuation.brackets.curly.close" }
+			},
+			"patterns": [
+				{"include": "#struct_field_def"},
+				{"include": "#comments"}
+			]
+		},
+
+		"struct_field_def": {
+			"begin": "\\b([_a-zA-Z][_a-zA-Z0-9]*)\\s*:",
+			"end": ";",
+			"beginCaptures": {
+				"1": { "name": "entity.other.attribute-name"}
+			},
+			"patterns": [
+				{"include": "#types"},
+				{"include": "#comments"}
 			]
 		},
 
 
 		"types": {
-			"match": "\\b[_a-zA-Z][_a-zA-Z0-9]*\\b",
+			"match": "\\b[_a-zA-Z][_a-zA-Z0-9\\[\\]]*\\b",
 			"name": "entity.name.type"
+		},
+
+
+		"builtin": {
+			"match": "\\b(builtin)\\s\\s*([_a-zA-Z][_a-zA-Z0-9]*)\\s*;",
+			"captures": {
+				"1": { "name": "keyword.control"},
+				"2": { "name": "entity.name.type"}
+			}
+		},
+
+		"imports": {
+			"begin": "\\b(import)\\b",
+			"end": ";",
+			"beginCaptures": {
+				"1": { "name": "keyword.control" }
+			},
+			"patterns": [
+				{"include": "#strings"},
+				{"include": "#comments"}
+			]
+		},
+
+		"statics": {
+			"match": "\\b[_A-Z][_A-Z0-9]*\\b",
+			"name": "variable.other.constant"
+		},
+
+		"static_kw": {
+			"match": "\\b(static)\\b",
+			"name": "keyword.other"
 		}
 	}
 }
