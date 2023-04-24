@@ -9,14 +9,14 @@
 		{"include": "#reserved_var"},
 		{"include": "#strings"},
 		{"include": "#numbers"},
-		{"include": "#function_call"},
 		{"include": "#function_def"},
 		{"include": "#method_def"},
 		{"include": "#structure_def"},
 		{"include": "#builtin"},
 		{"include": "#imports"},
 		{"include": "#statics"},
-		{"include": "#static_kw"}
+		{"include": "#static_kw"},
+		{"include": "#function_call"}
 	],
 
 	"repository": {
@@ -110,6 +110,7 @@
 		"function_def": {
 			"begin": "\\b(define)\\s\\s*(@?[_a-zA-Z][_a-zA-Z0-9]*)\\s*:\\s*",
 			"end": "{",
+			"name": "meta.function",
 			"beginCaptures": {
 				"1": { "name": "keyword.other" },
 				"2": { "name": "entity.name.function" }
