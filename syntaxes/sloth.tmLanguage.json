@@ -64,7 +64,7 @@
             "name": "constant.numeric.decimal",
             "match": "\\b\\d+(\\.\\d+)?\\b",
             "captures": {
-                "0": {
+                "1": {
                     "name": "constant.numeric.decimal"
                 }
             }
@@ -74,16 +74,22 @@
 
 		"function_call": {
 			"begin": "\\b([_a-zA-Z][_a-zA-Z0-9]*)\\s*(\\()",
-			"end": "\\)",
+			"end": "(\\))",
 			"beginCaptures": {
-				"0": { "name": "entity.name.function" },
-				"1": { "name" : "punctuation.paren.open" }
+				"1": { "name": "entity.name.function" },
+				"2": { "name" : "punctuation.paren.open" }
 			},
 			"endCaptures": {
-				"0": { "name": "punctuation.paren.close" }
+				"1": { "name": "punctuation.paren.close" }
 			},
 			"patterns": [
-				{"include": "#repository"}
+				{"include": "#function_call"},
+				{"include": "#comments"},
+				{"include": "#control"},
+				{"include": "#operators"},
+				{"include": "#reserved_var"},
+				{"include": "#strings"},
+				{"include": "#numbers"}
 			]
 		},
 
@@ -91,6 +97,7 @@
 		"method_def": {
 			"begin": "\\b(define)\\s\\s*(@?[_a-zA-Z][_a-zA-Z0-9]*)\\s\\s*((for)\\s\\s*([_a-zA-Z][_a-zA-Z0-9]*))?\\s*:\\s*",
 			"end": "{",
+			"name": "meta.function",
 			"beginCaptures": {
 				"1": { "name": "keyword.other" },
 				"2": { "name": "entity.name.function" },
